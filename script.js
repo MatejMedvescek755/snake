@@ -35,14 +35,26 @@ class Snake{
             case "left":
                 if(this.tail.length > 0){
                     temp = this.tail[this.tail.length-1]
-                    this.tail.push(new Tail(temp.x-15,temp.y))
+                    this.tail.push(new Tail(temp.x+15,temp.y))
                 }else{
-                    this.tail.push(new Tail(this.head.x-15, this.head.y))
+                    this.tail.push(new Tail(this.head.x+15, this.head.y))
                 }
                 break
             case "up":
+                if(this.tail.length > 0){
+                    temp = this.tail[this.tail.length-1]
+                    this.tail.push(new Tail(temp.x,temp.y+15))
+                }else{
+                    this.tail.push(new Tail(this.head.x, this.head.y+15))
+                }
                 break
             case "down":
+                if(this.tail.length > 0){
+                    temp = this.tail[this.tail.length-1]
+                    this.tail.push(new Tail(temp.x,temp.y-15))
+                }else{
+                    this.tail.push(new Tail(this.head.x, this.head.y-15))
+                }
                 break
             default:
 
