@@ -67,34 +67,34 @@ class Snake{
             case "right":
                 //x+=10
                 if(this.tail.length > 0){
-                    this.tail[0].setCord(this.head.x, this.head.y)
                     this.copyTail()
+                    this.tail[0].setCord(this.head.x-15, this.head.y)
                 }
                 this.head.setCord(this.head.x+2,this.head.y)
                 break
             case "left":
                 //x-=10
                 if(this.tail.length > 0){
-                    this.tail[0].setCord(this.head.x, this.head.y)
                     this.copyTail()
+                    this.tail[0].setCord(this.head.x+15, this.head.y)
                 }
-                this.head.setCord(this.head.x-3,this.head.y)
+                this.head.setCord(this.head.x-2,this.head.y)
                 break
             case "up":
                 //y-=10
                 if(this.tail.length > 0){
-                    this.tail[0].setCord(this.head.x, this.head.y)
                     this.copyTail()
+                    this.tail[0].setCord(this.head.x, this.head.y-15)
                 }
-                this.head.setCord(this.head.x,this.head.y-3)
+                this.head.setCord(this.head.x,this.head.y-2)
                 break
             case "down":
                 //y+=10
                 if(this.tail.length > 0){
-                    this.tail[0].setCord(this.head.x, this.head.y)
                     this.copyTail()
+                    this.tail[0].setCord(this.head.x, this.head.y+15)
                 }
-                this.head.setCord(this.head.x,this.head.y+3)
+                this.head.setCord(this.head.x,this.head.y+2)
                 break
             default:
             
@@ -102,10 +102,56 @@ class Snake{
     }
 
     copyTail(){
-        for(i = 1 ; i != this.tail.length; i++){
-            this.tail[i].setCord(this.tail[i-1].x,this.tail[i-1].x)   
-        }
+        for(var i = this.tail.length-1 ; i >= 0; i--){
+                if(i == 0){
+                    this.tail[0].setCord(this.head.x,this.head.y)
+                }else{
+                    this.tail[i].setCord(this.tail[i-1].x,this.tail[i-1].y)
+                }
+            }
+        // switch(way){
+        //     case "right":
+        //         for(var i = this.tail.length-1 ; i >= 0; i--){
+        //             if(i == 0){
+        //                 this.tail[0].setCord(this.head.x-15,this.head.y)
+        //             }else{
+        //                 this.tail[i].setCord(this.tail[i-1].x-15,this.tail[i-1].y)
+        //             }
+        //         }
+        //         break;
+        //     case "left":
+        //         for(var i = this.tail.length-1 ; i >= 0; i--){
+        //             if(i == 0){
+        //                 this.tail[0].setCord(this.head.x+15,this.head.y)
+        //             }else{
+        //                 this.tail[i].setCord(this.tail[i-1].x+15,this.tail[i-1].y)
+        //             }
+        //         }
+        //         break;
+        //     case "up":
+        //         for(var i = this.tail.length-1 ; i >= 0; i--){
+        //             if(i == 0){
+        //                 this.tail[0].setCord(this.head.x,this.head.y+15)
+        //             }else{
+        //                 this.tail[i].setCord(this.tail[i-1].x,this.tail[i-1].y+15)
+        //             }
+        //         }
+        //         break;
+        //     case "down":
+        //         for(var i = this.tail.length-1 ; i >= 0; i--){
+        //             if(i == 0){
+        //                 this.tail[0].setCord(this.head.x,this.head.y-15)
+        //             }else{
+        //                 this.tail[i].setCord(this.tail[i-1].x,this.tail[i-1].y-15)
+        //             }
+        //         }
+        //         break;
+        //     default:
+        //         console.error("way undefined")
+        // }
     }
+
+    
 }
 
 class Food{
@@ -154,7 +200,7 @@ var food = new Food()
 console.log(food)
 var way = "right"
 limiter = true;
-
+console.log(player.tail)
 
 function move(){
     clear()
@@ -165,6 +211,7 @@ function move(){
     if(Math.abs(player.head.x-food.x) < 10 && Math.abs(player.head.y-food.y) < 10){
         console.log("hit")
         food.newCord()
+        player.add()
     }
     if(!border()){
         window.requestAnimationFrame(move)
