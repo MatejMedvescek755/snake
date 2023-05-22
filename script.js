@@ -70,7 +70,7 @@ class Snake{
                     this.tail[0].setCord(this.head.x, this.head.y)
                     this.copyTail()
                 }
-                this.head.setCord(this.head.x+10,this.head.y)
+                this.head.setCord(this.head.x+2,this.head.y)
                 break
             case "left":
                 //x-=10
@@ -78,7 +78,7 @@ class Snake{
                     this.tail[0].setCord(this.head.x, this.head.y)
                     this.copyTail()
                 }
-                this.head.setCord(this.head.x-10,this.head.y)
+                this.head.setCord(this.head.x-3,this.head.y)
                 break
             case "up":
                 //y-=10
@@ -86,7 +86,7 @@ class Snake{
                     this.tail[0].setCord(this.head.x, this.head.y)
                     this.copyTail()
                 }
-                this.head.setCord(this.head.x,this.head.y-10)
+                this.head.setCord(this.head.x,this.head.y-3)
                 break
             case "down":
                 //y+=10
@@ -94,7 +94,7 @@ class Snake{
                     this.tail[0].setCord(this.head.x, this.head.y)
                     this.copyTail()
                 }
-                this.head.setCord(this.head.x,this.head.y+10)
+                this.head.setCord(this.head.x,this.head.y+3)
                 break
             default:
             
@@ -109,16 +109,16 @@ class Snake{
 }
 
 class Food{
-    x = 10
-    y = 10
+    x = 250
+    y = 250
+    checker = true
     newCord(){
-        x = Math.random()*490+10
-        y =Math.random()*490+10
+        this.x = Math.floor(Math.random()*10)*50
+        this.y =Math.floor(Math.random()*10)*50
     }
-
     draw(){
-        newCord()
         ctx.strokeRect(this.x, this.y, 10, 10)
+        this.checker = true
     }
 }
 
@@ -149,34 +149,36 @@ class Tail{
 
 }
 
-player = new Snake(50,50)
-food = new Food()
-
+var player = new Snake(50,50)
+var food = new Food()
+console.log(food)
 var way = "right"
 limiter = true;
 
 
 function move(){
     clear()
+    
     player.draw()
-    if(limiter){
-        player.move(way)
+    player.move(way)
+    food.draw()
+    if(Math.abs(player.head.x-food.x) < 10 && Math.abs(player.head.y-food.y) < 10){
+        console.log("hit")
+        food.newCord()
     }
-    limiter = !limiter
     if(!border()){
         window.requestAnimationFrame(move)
     }
 }
 
 var border = () =>{
-    if(player.head.x+10 > 500 || player.head.x < 0 || player.head.y+10 > 500 || player.head.y < 0){
+    if(player.head.x+10-2 > 500 || player.head.x < 0 || player.head.y+10-2 > 500 || player.head.y < 0){
         console.error("hit the wall");
-        alert("game over")
+        //alert("game over")
         return true
     }
     return false
 }
-
 window.requestAnimationFrame(move)
 
 function clear(){
@@ -184,7 +186,6 @@ function clear(){
 }
 
 document.addEventListener("keydown", (e)=>{
-    console.log(e.keyCode)
     switch(e.keyCode){
         case 40:
             way = "down"
@@ -208,9 +209,13 @@ document.addEventListener("keydown", (e)=>{
             way="up"
             break;
         case 87:
-            way="left"
+            way="up"
             break;
         default:
     }
-    console.log(way)
 })
+
+/*
+add so you cant turn 180 degs 
+
+*/
